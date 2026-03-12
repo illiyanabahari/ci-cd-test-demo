@@ -6,7 +6,7 @@ pipeline {
    }
 
    environment {
-      DEPLOY_PATH = 'D:\\apache-tomcat-10.1.24\\webapps'
+       DEPLOY_PATH = 'D:\\apache-tomcat-10.1.24\\webapps'
        APP_NAME = 'ci-cd-test-demo'
        WAR_FILE = 'ci-cd-test-demo.war'
    }
@@ -39,7 +39,7 @@ pipeline {
 
        stage('Debug Tomcat Folder') {
            steps {
-               bat 'dir D:\\tomcat10\\webapps'
+               bat "dir \"%DEPLOY_PATH%\""
            }
        }
 
