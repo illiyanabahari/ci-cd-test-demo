@@ -12,6 +12,7 @@ pipeline {
    }
 
    stages {
+
        stage('Checkout') {
            steps {
                checkout scm
@@ -27,6 +28,18 @@ pipeline {
        stage('Package WAR') {
            steps {
                bat 'mvn package'
+           }
+       }
+
+       stage('Debug WAR File') {
+           steps {
+               bat 'dir target'
+           }
+       }
+
+       stage('Debug Tomcat Folder') {
+           steps {
+               bat 'dir D:\\tomcat10\\webapps'
            }
        }
 
