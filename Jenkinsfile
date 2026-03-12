@@ -44,14 +44,15 @@ pipeline {
        }
 
        stage('Deploy to Tomcat') {
-           steps {
-               bat """
-               if exist "%DEPLOY_PATH%\\%APP_NAME%" rmdir /s /q "%DEPLOY_PATH%\\%APP_NAME%"
-               if exist "%DEPLOY_PATH%\\%WAR_FILE%" del /f /q "%DEPLOY_PATH%\\%WAR_FILE%"
-               copy /Y "target\\%WAR_FILE%" "%DEPLOY_PATH%\\%WAR_FILE%"
-               """
-           }
-       }
+    steps {
+        bat """
+        if not exist "%DEPLOY_PATH%" mkdir "%DEPLOY_PATH%"
+        if exist "%DEPLOY_PATH%\\%APP_NAME%" rmdir /s /q "%DEPLOY_PATH%\\%APP_NAME%"
+        if exist "%DEPLOY_PATH%\\%WAR_FILE%" del /f /q "%DEPLOY_PATH%\\%WAR_FILE%"
+        copy /Y "target\\%WAR_FILE%" "%DEPLOY_PATH%\\%WAR_FILE%"
+        """
+    	}
+	}
    }
 
    post {
