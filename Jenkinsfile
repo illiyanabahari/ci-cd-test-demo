@@ -1,4 +1,4 @@
-pipeline {
+ppipeline {
    agent any
 
    tools {
@@ -6,7 +6,7 @@ pipeline {
    }
 
    environment {
-       DEPLOY_PATH = 'D:\\apache-tomcat-10.1.24\\webapps'
+       DEPLOY_PATH = 'D:\\apache-tomcat-10.1.42\\webapps'
        APP_NAME = 'ci-cd-test-demo'
        WAR_FILE = 'ci-cd-test-demo.war'
    }
@@ -39,20 +39,20 @@ pipeline {
 
        stage('Debug Tomcat Folder') {
            steps {
-               bat "dir \"%DEPLOY_PATH%\""
+               bat "dir \"%DEPLOY_PATH%\" || echo Folder does not exist yet."
            }
        }
 
        stage('Deploy to Tomcat') {
-    steps {
-        bat """
-        if not exist "%DEPLOY_PATH%" mkdir "%DEPLOY_PATH%"
-        if exist "%DEPLOY_PATH%\\%APP_NAME%" rmdir /s /q "%DEPLOY_PATH%\\%APP_NAME%"
-        if exist "%DEPLOY_PATH%\\%WAR_FILE%" del /f /q "%DEPLOY_PATH%\\%WAR_FILE%"
-        copy /Y "target\\%WAR_FILE%" "%DEPLOY_PATH%\\%WAR_FILE%"
-        """
-    	}
-	}
+           steps {
+               bat """
+               if not exist "%DEPLOY_PATH%" mkdir "%DEPLOY_PATH%"
+               if exist "%DEPLOY_PATH%\\%APP_NAME%" rmdir /s /q "%DEPLOY_PATH%\\%APP_NAME%"
+               if exist "%DEPLOY_PATH%\\%WAR_FILE%" del /f /q "%DEPLOY_PATH%\\%WAR_FILE%"
+               copy /Y "target\\%WAR_FILE%" "%DEPLOY_PATH%\\%WAR_FILE%"
+               """
+           }
+       }
    }
 
    post {
@@ -63,4 +63,4 @@ pipeline {
            echo 'Pipeline failed. Deployment was not performed.'
        }
    }
-}
+}}
